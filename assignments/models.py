@@ -18,10 +18,7 @@ class Course(models.Model):
         ordering = ['code']
 
     def __str__(self):
-        if self.format == 'Lecture':
-            return f'{self.code}'
-        else:
-            return f'{self.code} {self.format[0:3]}'
+        return f'{self.code}' if self.format == 'Lecture' else f'{self.code} {self.format[0:3]}'
 
 class Professor(models.Model):
     name = models.CharField(max_length=100)
@@ -44,6 +41,7 @@ class Assignment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        unique_together = ['name', 'course']
         ordering = ['due_date']
 
     def __str__(self):
